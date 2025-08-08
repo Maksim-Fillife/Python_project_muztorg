@@ -27,3 +27,19 @@ def test_search_musical_instrument_by_keyword(driver):
 def test_navigate_to_acoustic_guitars_category(driver):
     driver.get("https://www.muztorg.ru/")
     wait = WebDriverWait(driver, 10)
+    catalog_button = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "button.js-catalog-menu-button"))
+    )
+    catalog_button.click()
+    guitars_category = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "a[href='/category/gitary']"))
+    )
+    guitars_category.click()
+    acoustic_guitars_category = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "div[title='Акустические гитары']"))
+    )
+    acoustic_guitars_category.click()
+    check_acoustic_guitars_page = wait.until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "h1.category-head__title"))
+    )
+    assert check_acoustic_guitars_page.is_displayed()
