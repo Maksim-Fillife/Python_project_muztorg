@@ -1,4 +1,5 @@
 import random
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -86,5 +87,37 @@ def test_open_product_card(driver):
 
     # check_price = driver.find_element(By.XPATH, f"//div[@class='mt-product-price__discounted-value'][contains(text(), '{card_price}')]")
     # assert check_price.is_displayed()
+
+def test_add_product_to_cart(driver):
+    driver.get("https://www.muztorg.ru/")
+    wait = WebDriverWait(driver, 10)
+    catalog_button = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "button.js-catalog-menu-button"))
+    )
+    catalog_button.click()
+    guitars_category = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "a[href='/category/gitary']"))
+    )
+    guitars_category.click()
+    acoustic_guitars_category = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "div[title='Акустические гитары']"))
+    )
+    acoustic_guitars_category.click()
+
+    cards = wait.until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.catalog-card.js-catalog-card[itemtype*='Product']"))
+    )
+    select_product_card = random.choice(cards)
+    card_name_element = select_product_card.find_element(By.CSS_SELECTOR, ".catalog-card__name")
+    card_name = card_name_element.text.strip()
+    print(f"{card_name}")
+
+    open_product = driver.find_element(By.XPATH, f"//a[contains(@class, 'catalog-card__name') and contains(text(), '{card_name}')]")
+    open_product.click()
+
+    add_product_to_cart = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//a[@data-role='add-to-cart' and .//span[text()='В корзину']]"))
+    )
+    ActionChains(driver).move_to_element(add_product_to_cart).click().perform()
 
 
