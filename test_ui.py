@@ -1,9 +1,11 @@
 import random
+from tabnanny import check
+
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
-
+import time
 
 
 
@@ -115,9 +117,72 @@ def test_add_product_to_cart(driver):
     open_product = driver.find_element(By.XPATH, f"//a[contains(@class, 'catalog-card__name') and contains(text(), '{card_name}')]")
     open_product.click()
 
+    # close_cooke_banner = wait.until(
+    #     EC.element_to_be_clickable((By.CSS_SELECTOR, "button[class*='js-popup-cookie-close']"))
+    # )
+    # close_cooke_banner.click()
+
     add_product_to_cart = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//a[@data-role='add-to-cart' and .//span[text()='В корзину']]"))
     )
-    ActionChains(driver).move_to_element(add_product_to_cart).click().perform()
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", add_product_to_cart)
+    driver.execute_script("arguments[0].style.border='3px solid red';", add_product_to_cart)
+    driver.execute_script("arguments[0].click();", add_product_to_cart)
 
+    cart_badge = wait.until(
+        EC.visibility_of_element_located((By.XPATH, "//span[contains(@class, 'js-header-amount')]"))
+    )
+    assert cart_badge.text == "1"
 
+def test_view_shopping_cart(driver):
+    # Открываем сайт
+    driver.get("https://www.muztorg.ru/")
+    wait = WebDriverWait(driver, 10)
+    #
+    catalog_button = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "button.js-catalog-menu-button"))
+    )
+    catalog_button.click()
+    #
+    guitars_category = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "a[href='/category/gitary']"))
+    )
+    guitars_category.click()
+    #
+    acoustic_guitars_category = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "div[title='Акустические гитары']"))
+    )
+    acoustic_guitars_category.click()
+    #
+    cards = wait.until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article.catalog-card.js-catalog-card[itemtype*='Product']"))
+    )
+    select_product_card = random.choice(cards)
+    card_name_element = select_product_card.find_element(By.CSS_SELECTOR, ".catalog-card__name")
+    card_name = card_name_element.text.strip()
+    print(f"{card_name}")
+    #
+    open_product = driver.find_element(By.XPATH, f"//a[contains(@class, 'catalog-card__name') and contains(text(), '{card_name}')]")
+    open_product.click()
+    #
+    add_product_to_cart = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//a[@data-role='add-to-cart' and .//span[text()='В корзину']]"))
+    )
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", add_product_to_cart)
+    driver.execute_script("arguments[0].style.border='3px solid red';", add_product_to_cart)
+    driver.execute_script("arguments[0].click();", add_product_to_cart)
+
+    cart_badge = wait.until(
+        EC.visibility_of_element_located((By.XPATH, "//span[contains(@class, 'js-header-amount')]"))
+    )
+    assert cart_badge.text == "1"
+
+    open_cart = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "a.mt-header__link[href='/cart/index']"))
+    )
+    open_cart.click()
+
+    check_product_in_cart = wait.until(
+        EC.visibility_of_element_located((By.XPATH, f"//a[contains(@class, 'cart-list__name') and contains(., '{card_name}')]"))
+    )
+    assert check_product_in_cart.is_displayed()
