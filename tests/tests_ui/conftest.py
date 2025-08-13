@@ -8,7 +8,7 @@ def driver():
     browser.maximize_window()
     browser.implicitly_wait(5)
     yield browser
-    # browser.quit()
+    browser.quit()
 
 @pytest.fixture
 def instruments_page(driver):
