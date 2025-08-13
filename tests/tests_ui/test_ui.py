@@ -1,0 +1,75 @@
+
+def test_search_musical_instrument_by_keyword(instruments_page):
+    instruments_page.open()
+    instruments_page.search_product('fender')
+    instruments_page.check_search_result('fender')
+
+def test_navigate_to_acoustic_guitars_category(instruments_page):
+    instruments_page.open()
+    instruments_page.open_catalog()
+    instruments_page.go_to_guitars_category()
+    instruments_page.go_to_acoustic_guitars()
+    instruments_page.check_category_title('Акустические гитары')
+
+def test_open_product_card(instruments_page):
+    instruments_page.open()
+    instruments_page.confirm_region()
+    instruments_page.close_cookies()
+    instruments_page.open_catalog()
+    instruments_page.go_to_guitars_category()
+    instruments_page.go_to_electric_guitars()
+    instruments_page.select_random_card()
+    instruments_page.open_product_card()
+    instruments_page.check_product_title()
+
+def test_add_product_to_cart(instruments_page):
+    instruments_page.open()
+    instruments_page.confirm_region()
+    instruments_page.close_cookies()
+    instruments_page.open_catalog()
+    instruments_page.go_to_guitars_category()
+    instruments_page.go_to_electric_guitars()
+    instruments_page.select_random_card()
+    instruments_page.open_product_card()
+    instruments_page.add_product_to_cart()
+    instruments_page.check_cart_badge()
+
+def test_view_shopping_cart(instruments_page):
+    instruments_page.open()
+    instruments_page.confirm_region()
+    instruments_page.close_cookies()
+    instruments_page.open_catalog()
+    instruments_page.go_to_guitars_category()
+    instruments_page.go_to_electric_guitars()
+    instruments_page.select_random_card()
+    instruments_page.open_product_card()
+    instruments_page.add_product_to_cart()
+    instruments_page.open_cart()
+    instruments_page.check_product_in_cart()
+
+def test_delete_product_from_cart(instruments_page):
+    instruments_page.open()
+    instruments_page.confirm_region()
+    instruments_page.close_cookies()
+    instruments_page.open_catalog()
+    instruments_page.go_to_guitars_category()
+    instruments_page.go_to_electric_guitars()
+    instruments_page.select_random_card()
+    instruments_page.open_product_card()
+    instruments_page.add_product_to_cart()
+    instruments_page.open_cart()
+    instruments_page.delete_product_from_cart()
+    instruments_page.check_empty_cart()
+
+def test_add_wishlist(instruments_page):
+    instruments_page.open()
+    instruments_page.confirm_region()
+    instruments_page.close_cookies()
+    instruments_page.open_catalog()
+    instruments_page.go_to_guitars_category()
+    instruments_page.go_to_electric_guitars()
+    instruments_page.select_random_card()
+    instruments_page.open_product_card()
+    instruments_page.add_product_to_wishlist()
+    instruments_page.open_wishlist()
+    instruments_page.check_adding_to_wishlist()
