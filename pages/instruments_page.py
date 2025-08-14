@@ -1,17 +1,15 @@
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 from locators.instruments_page_locators import InstrumentLocators as locators
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 import random
 
-class InstrumentsPage:
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
 
-    def open(self):
-        self.driver.get("https://www.muztorg.ru/")
-        self.wait = WebDriverWait(self.driver, 10)
+
+class InstrumentsPage(BasePage):
+    def __init__(self, driver):
+        super().__init__(driver)
 
     def confirm_region(self):
         confirm_region = self.wait.until(
