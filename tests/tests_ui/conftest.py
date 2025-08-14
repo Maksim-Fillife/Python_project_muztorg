@@ -1,5 +1,5 @@
-import pytest
 from selenium import webdriver
+import pytest
 
 
 @pytest.fixture(scope='function', autouse=True)
