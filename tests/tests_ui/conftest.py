@@ -14,3 +14,8 @@ def driver():
 def instruments_page(driver):
     from pages.instruments_page import InstrumentsPage
     return InstrumentsPage(driver)
+
+@pytest.fixture
+def auth_page(driver):
+    from pages.auth_page import AuthPage
+    return AuthPage(driver)

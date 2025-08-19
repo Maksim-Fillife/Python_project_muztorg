@@ -1,6 +1,5 @@
 from locators.instruments_page_locators import InstrumentLocators as locators
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 import random
@@ -91,12 +90,12 @@ class InstrumentsPage(BasePage):
         assert check_title.is_displayed()
 
     def add_product_to_cart(self):
-            add_product_to_cart = self.wait.until(
+            add_product_button = self.wait.until(
                 EC.element_to_be_clickable(locators.ADD_TO_CART_BUTTON(self.last_select_product))
             )
-            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", add_product_to_cart)
-            self.driver.execute_script("arguments[0].style.border='3px solid red';", add_product_to_cart)
-            self.driver.execute_script("arguments[0].click();", add_product_to_cart)
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", add_product_button)
+            self.driver.execute_script("arguments[0].style.border='3px solid red';", add_product_button)
+            self.driver.execute_script("arguments[0].click();", add_product_button)
 
 
     def check_cart_badge(self):
@@ -106,10 +105,10 @@ class InstrumentsPage(BasePage):
         assert cart_badge.text == "1"
 
     def open_cart(self):
-        open_cart = self.wait.until(
+        cart_button = self.wait.until(
             EC.element_to_be_clickable(locators.OPEN_CART_LINK)
         )
-        open_cart.click()
+        cart_button.click()
 
 
     def check_product_in_cart(self):

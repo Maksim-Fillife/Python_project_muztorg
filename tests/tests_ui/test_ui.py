@@ -1,4 +1,34 @@
 
+
+
+def test_valid_authorization(auth_page):
+    auth_page.open()
+    auth_page.auth_button()
+    auth_page.login_with_password()
+    auth_page.fill_email()
+    auth_page.fill_password()
+    auth_page.click_submit_button()
+    auth_page.check_profile_button()
+
+def test_authorization_with_wrong_password(auth_page):
+    auth_page.open()
+    auth_page.auth_button()
+    auth_page.login_with_password()
+    auth_page.fill_email()
+    auth_page.fill_wrong_password()
+    auth_page.click_submit_button()
+    auth_page.check_message_error()
+
+def test_logout(auth_page):
+    auth_page.open()
+    auth_page.auth_button()
+    auth_page.login_with_password()
+    auth_page.fill_email()
+    auth_page.fill_password()
+    auth_page.click_submit_button()
+    auth_page.click_logout()
+    auth_page.check_logout()
+
 def test_search_musical_instrument_by_keyword(instruments_page):
     instruments_page.open()
     instruments_page.search_product('fender')
