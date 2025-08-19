@@ -11,11 +11,11 @@ def driver():
     browser.quit()
 
 @pytest.fixture
-def instruments_page(driver):
+def instruments(driver):
     from pages.instruments_page import InstrumentsPage
     return InstrumentsPage(driver)
 
 @pytest.fixture
-def auth_page(driver):
+def authorization(driver):
     from pages.auth_page import AuthPage
     return AuthPage(driver)

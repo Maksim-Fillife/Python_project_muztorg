@@ -1,72 +1,41 @@
 from selenium.webdriver.support import expected_conditions as EC
-from locators.aut_page_locators import AutLocators as locators
+from locators.aut_page_locators import AutLocators as locator
 from data.config import EMAIL, PASSWORD, WRONG_PASSWORD
 from pages.base_page import BasePage
-import time
 
 
 class AuthPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-
     def auth_button(self):
-        auth_button = self.wait.until(
-        EC.element_to_be_clickable(locators.INPUT_BUTTON)
-    )
-        self.action.move_to_element(auth_button).click().perform()
+        self.click(locator.INPUT_BUTTON)
 
     def login_with_password(self):
-        time.sleep(2)
-        login_with_password = self.wait.until(
-            EC.element_to_be_clickable(locators.LOGIN_WITH_PASSWORD_LINK)
-        )
-        login_with_password.click()
+        self.click(locator.LOGIN_WITH_PASSWORD_LINK)
 
     def fill_email(self):
-        time.sleep(1)
-        email_input = self.wait.until(EC.element_to_be_clickable(locators.INPUT_EMAIL))
-        self.action.move_to_element(email_input).click().perform()
-
-        for char in EMAIL:
-            self.action.send_keys(char).pause(0.18).perform()
+        self.send_keys_human(locator.INPUT_EMAIL, EMAIL, delay=0.1)
 
     def fill_password(self):
-        password_input = self.wait.until(EC.element_to_be_clickable(locators.INPUT_PASSWORD))
-        self.action.move_to_element(password_input).click().perform()
-
-        for char in PASSWORD:
-            self.action.send_keys(char).pause(0.13).perform()
+        self.send_keys_human(locator.INPUT_PASSWORD, PASSWORD, delay=0.1)
 
     def fill_wrong_password(self):
-        wrong_password_input = self.wait.until(EC.element_to_be_clickable(locators.INPUT_PASSWORD))
-        self.action.move_to_element(wrong_password_input).click().perform()
-
-        for char in WRONG_PASSWORD:
-            self.action.send_keys(char).pause(0.1).perform()
+        self.send_keys_human(locator.INPUT_PASSWORD, WRONG_PASSWORD, delay=0.1)
 
     def click_submit_button(self):
-        submit_button = self.wait.until(
-            EC.element_to_be_clickable(locators.SUBMIT_BUTTON)
-        )
-        self.action.move_to_element(submit_button).click().perform()
+        self.click(locator.SUBMIT_BUTTON)
 
     def check_message_error(self):
-        error_message = self.wait.until(
-            EC.visibility_of_element_located(locators.ERROR_MESSAGE)
-        )
-        error_message.is_displayed()
+        self.find_visible_element(locator.ERROR_MESSAGE)
 
     def check_profile_button(self):
-        profile_button = self.wait.until(EC.element_to_be_clickable(locators.PROFILE_BUTTON))
-        profile_button.is_displayed()
+        self.find_visible_element(locator.PROFILE_BUTTON)
 
     def click_logout(self):
-        profile_button = self.wait.until(EC.element_to_be_clickable(locators.PROFILE_BUTTON))
-        self.action.move_to_element(profile_button).perform()
-        logout_button = self.wait.until(EC.element_to_be_clickable(locators.LOGOUT_BUTTON))
-        self.action.move_to_element(logout_button).click().perform()
+        self.hover(locator.PROFILE_BUTTON)
+        self.click(locator.LOGOUT_BUTTON)
 
     def check_logout(self):
-        logout = self.wait.until(EC.visibility_of_element_located(locators.INPUT_BUTTON))
-        assert logout.text.strip() == "Войти"
+        actual_text = self.get_text(locator.INPUT_BUTTON)
+        assert actual_text == "Войти"
