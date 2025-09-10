@@ -1,13 +1,19 @@
 
 
 
-def test_valid_authorization(authorization):
+def test_valid_authorization(authorization, driver):
     authorization.open()
     authorization.auth_button()
     authorization.login_with_password()
     authorization.fill_email()
     authorization.fill_password()
     authorization.click_submit_button()
+
+    # Отладка: что сейчас на экране?
+    print("Current URL:", authorization.driver.current_url)
+    print("Page Title:", authorization.driver.title)
+    authorization.driver.save_screenshot("after_login.png")
+
     authorization.check_profile_button()
 
 def test_authorization_with_wrong_password(authorization):
