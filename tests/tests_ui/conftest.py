@@ -15,7 +15,7 @@ def driver():
     options.add_experimental_option('useAutomationExtension', False)
     options.add_argument("--disable-blink-features=AutomationControlled")
 
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(options=options)
 
     browser.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
     browser.execute_script("delete navigator.__proto__.webdriver")
