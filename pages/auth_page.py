@@ -1,4 +1,3 @@
-from selenium.webdriver.support import expected_conditions as EC
 from locators.aut_page_locators import AutLocators as locator
 from data.config import EMAIL, PASSWORD, WRONG_PASSWORD
 from pages.base_page import BasePage
